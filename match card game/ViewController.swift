@@ -56,38 +56,58 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         // get  reference to the cell that was tapped
         let cell = collectionView.cellForItem(at: indexPath) as?
             CardCollectionViewCell
+        let card = cardsArray[indexPath.row]
         
-        // check the status of the card to determine how to flip it
-        if cell?.card?.isFlipped == false {
-            
-            // flip the card up
+        if card.isFlipped == false {
             cell?.flipUp()
             
-            //check if this is the first card that was flipped or the second one
-            
             if firstFlippedCardIndex == nil {
-                
-                //this is the first card flipped over
-                
                 firstFlippedCardIndex = indexPath
-            }
-            else {
-                
-                //second card that is flipped over
-                
-             
-                // run the comparison logic
-           
+            } else {
+                checkForMatch(indexPath)
             }
             
-        
+        } else {
+            cell?.flipDown()
         }
+        
+        // check the status of the card to determine how to flip it
+//        if cell?.card?.isFlipped == false {
+//
+//            // flip the card up
+//            cell?.flipUp()
+//
+//            //check if this is the first card that was flipped or the second one
+//
+//            if firstFlippedCardIndex == nil {
+//
+//                //this is the first card flipped over
+//
+//                firstFlippedCardIndex = indexPath
+//            }
+//            else {
+//
+//                //second card that is flipped over
+//
+//
+//                // run the comparison logic
+//
+//            }
+//
+//
+//        }
         
     }
     
     // MARK:  -Game Logic Methods
     
     func checkForMatch(_ secondFlippedCardIndex:IndexPath) {
+        
+        // get the two collection view cells that represent card one and two
+        let cardOneCell = collectionView.cellForItem(at:firstFlippedCardIndex!) as? CardCollectionViewCell
+       
+        let cardTwoCell = collectionView.cellForItem(at:secondFlippedCardIndex) as?
+        CardCollectionViewCell
         
         // get the two card object for the two incices and see if they match
         let cardOne = cardsArray[firstFlippedCardIndex!.row]
@@ -96,12 +116,8 @@ class ViewController: UIViewController, UICollectionViewDataSource, UICollection
         print(firstFlippedCardIndex!.row)
         
         
-        // get the two collection view cells that represent card one and two
-        
-        let cardOneCell = collectionView.cellForItem(at:firstFlippedCardIndex!) as? CardCollectionViewCell
-       
-        let cardTwoCell = collectionView.cellForItem(at:secondFlippedCardIndex) as?
-        CardCollectionViewCell
+ 
+
         
         
         //compare the two cards
